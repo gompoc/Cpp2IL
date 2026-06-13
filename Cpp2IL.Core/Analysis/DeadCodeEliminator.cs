@@ -107,7 +107,9 @@ public static class DeadCodeEliminator
                 or OpCode.ShiftLeft or OpCode.ShiftRight
                 or OpCode.And or OpCode.Or or OpCode.Xor
                 or OpCode.Not or OpCode.Negate
-                or OpCode.CheckEqual or OpCode.CheckGreater or OpCode.CheckLess => true,
+                or OpCode.CheckEqual or OpCode.CheckNotEqual
+                or OpCode.CheckGreater or OpCode.CheckGreaterOrEqual
+                or OpCode.CheckLess or OpCode.CheckLessOrEqual => true,
             _ => false
         };
 }
