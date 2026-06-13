@@ -271,10 +271,26 @@ public static class LocalVariables
                 case OpCode.Phi:
                     changed |= PropagatePhi(instruction);
                     break;
+                case OpCode.CheckEqual:
+                case OpCode.CheckNotEqual:
+                case OpCode.CheckGreater:
+                case OpCode.CheckLess:
+                case OpCode.CheckGreaterOrEqual:
+                case OpCode.CheckLessOrEqual:
+                    changed |= PropagateComparisonResult(instruction, method.AppContext.SystemTypes.SystemBooleanType);
+                    break;
             }
         }
 
         return changed;
+    }
+
+    private static bool PropagateComparisonResult(Instruction instruction, TypeAnalysisContext boolType)
+    {
+        if (instruction.Destination is not LocalVariable destination)
+            return false;
+
+        return SetTypeIfUnknown(destination, boolType);
     }
 
     private static bool PropagateMove(Instruction move)
